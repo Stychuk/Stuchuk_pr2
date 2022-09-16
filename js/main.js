@@ -9,4 +9,4 @@ function toggleModal() {
     modal.classList.toggle("is-open");
 }
 
-new Window.
+new WOW().init();

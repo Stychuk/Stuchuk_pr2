@@ -341,6 +341,14 @@ body{
     font-style: 20px;
     line-height: 23px;
 }
+
+.animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+  }
+  
 @media (max-width:1366px){
     .container{
         max-width: 960px;
