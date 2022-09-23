@@ -348,7 +348,31 @@ body{
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
   }
-  
+
+.modal-auth-dialog {
+    max-width: 400px;
+}
+
+.modal-auth-dialog .modal-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-auth{
+    padding-left: 10px;
+    height: 34px;
+    margin-bottom: 10px;
+}
+.user-name{
+    padding-right: 10px;
+}
+.user_name{
+    text-align: center;
+    font-size: 40px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
 @media (max-width:1366px){
     .container{
         max-width: 960px;
