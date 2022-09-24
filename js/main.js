@@ -15,6 +15,7 @@ function toggleModal() {
 // day 1
 
 const buttonAuth = document.querySelector('.button-auth');
+const closeAuth = document.querySelector('.close-auth');
 const modalAuth = document.querySelector('.modal-auth');
 const logInForm = document.querySelector('#logInForm');
 const loginInput= document.querySelector('#login');
@@ -27,7 +28,16 @@ let login = localStorage.getItem('gloDelivery');
 
 function toggleModalAuth() {
     modalAuth.classList.toggle("is-open");
+    if (modalAuth.classList.contains("is-open")) {
+        disableScroll();
+    } else {
+        enableScroll();
+    }
+}
+
+function clearForm() {
     loginInput.style.borderColor = '';
+    logInForm.reset();
 }
 
 function authorized() {
@@ -60,6 +70,7 @@ function notAuthorized() {
           localStorage.setItem('gloDelivery', login)
           toggleModalAuth();
           buttonAuth.removeEventListener('click', toggleModalAuth);
+          closeAuth.removeEventListener('click', toggleModalAuth);
           logInForm.removeEventListener('submit', logIn)
           logInForm.reset();
           checkAuth();
@@ -73,8 +84,16 @@ function notAuthorized() {
     userName.style.display = 'none';
     buttonOut.style.display = 'none';
     buttonAuth.addEventListener('click', toggleModalAuth);
+    closeAuth.addEventListener('click', toggleModalAuth);
     logInForm.addEventListener('submit', logIn);
+    modalAuth.addEventListener('click', function (event) { 
+        if (event.target.classList.contains('is-open')) {
+            toggleModalAuth();
+        }
+    })
 }
+
+buttonAuth.addEventListener('click', clearForm);
 
 function checkAuth() {
     if (login) {

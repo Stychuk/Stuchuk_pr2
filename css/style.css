@@ -372,6 +372,11 @@ body{
     margin-bottom: 20px;
     font-weight: bold;
 }
+.close-auth{
+    font-size: 36px;
+    border: none;
+    background-color: transparent;
+}
 
 @media (max-width:1366px){
     .container{
