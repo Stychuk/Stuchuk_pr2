@@ -1,3 +1,4 @@
+'use strict';
 const cartButton = document.querySelector("#cart-button");
 const modal = document.querySelector(".modal");
 const close = document.querySelector(".close");
@@ -23,6 +24,11 @@ const userName = document.querySelector('.user-name');
 const buttonOut = document.querySelector('.button-out');
 const userName1 = document.querySelector('#userName');
 const passwordInput = document.querySelector('#password');
+
+const cardsRestaurants = document.querySelector('.cards-restaurants');
+const containerPromo = document.querySelector('.container-promo');
+const restaurants = document.querySelector('.restaurants');
+const menu = document.querySelector('.menu');
 
 let login = localStorage.getItem('gloDelivery');
 
@@ -104,3 +110,49 @@ function checkAuth() {
 }
 
 checkAuth();
+
+function createCardRestaurant() {
+
+    const card = `
+        <a class="card card-restaurant">
+            <img src="img/image (1).jpg" alt="image" class="card-image">
+            <div class="card-text">
+                <div class="card-heading">
+                    <h3 class="card-title">Тануки</h3>
+                    <span class="card-tag tag">48 мин</span>
+                </div>
+                <div class="card-info">
+                    <div class="rating"><img src="img/rating.svg" alt="rating" class="raiting-star"> 3.8</div>
+                    <div class="price">От 800 ₽</div>
+                    <div class="category">Суши, роллы</div>
+                </div>
+            </div>
+        </a>
+    `;
+
+    cardsRestaurants.insertAdjacentHTML('beforeend', card);
+
+
+}
+
+createCardRestaurant();
+createCardRestaurant();
+createCardRestaurant();
+
+
+
+function openGoods(event) {
+
+    const target = event.target;
+
+    const restaurant = target.closest('.card-restaurant');
+
+    if(restaurant) {
+        containerPromo.classList.add('hide');
+        restaurants.classList.add('hide');
+        menu.classList.remove('hide');
+    }
+
+}
+
+cardsRestaurants.addEventListener('click', openGoods);
