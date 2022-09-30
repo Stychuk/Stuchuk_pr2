@@ -24,11 +24,11 @@ const userName = document.querySelector('.user-name');
 const buttonOut = document.querySelector('.button-out');
 const userName1 = document.querySelector('#userName');
 const passwordInput = document.querySelector('#password');
-
 const cardsRestaurants = document.querySelector('.cards-restaurants');
 const containerPromo = document.querySelector('.container-promo');
 const restaurants = document.querySelector('.restaurants');
 const menu = document.querySelector('.menu');
+const logo = document.querySelector('.logo');
 
 let login = localStorage.getItem('gloDelivery');
 
@@ -139,7 +139,12 @@ createCardRestaurant();
 createCardRestaurant();
 createCardRestaurant();
 
+function createCardGood() {
+    const card = document.createElement('div');
+    card.className = 'card'
 
+    console.log(card);
+}
 
 function openGoods(event) {
 
@@ -153,6 +158,17 @@ function openGoods(event) {
         menu.classList.remove('hide');
     }
 
+    createCardGood();
+
 }
 
+
+
+
+
 cardsRestaurants.addEventListener('click', openGoods);
+logo.addEventListener('click', function() {
+    containerPromo.classList.remove('hide');
+    restaurants.classList.remove('hide');
+    menu.classList.add('hide');
+});
