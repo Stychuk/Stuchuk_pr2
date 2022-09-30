@@ -1,20 +1,10 @@
 'use strict';
-const cartButton = document.querySelector("#cart-button");
-const modal = document.querySelector(".modal");
-const close = document.querySelector(".close");
-
-cartButton.addEventListener("click", toggleModal);
-close.addEventListener("click", toggleModal);
-
-function toggleModal() {
-    modal.classList.toggle("is-open");
-}
 
 //new WOW().init();
 
-
-// day 1
-
+const cartButton = document.querySelector("#cart-button");
+const modal = document.querySelector(".modal");
+const close = document.querySelector(".close");
 const buttonAuth = document.querySelector('.button-auth');
 const closeAuth = document.querySelector('.close-auth');
 const modalAuth = document.querySelector('.modal-auth');
@@ -29,8 +19,13 @@ const containerPromo = document.querySelector('.container-promo');
 const restaurants = document.querySelector('.restaurants');
 const menu = document.querySelector('.menu');
 const logo = document.querySelector('.logo');
+const cardsMenu = document.querySelector('.cards-menu');
 
 let login = localStorage.getItem('gloDelivery');
+
+function toggleModal() {
+    modal.classList.toggle("is-open");
+}
 
 function toggleModalAuth() {
     modalAuth.classList.toggle("is-open");
@@ -99,8 +94,6 @@ function notAuthorized() {
     })
 }
 
-buttonAuth.addEventListener('click', clearForm);
-
 function checkAuth() {
     if (login) {
         authorized();
@@ -108,8 +101,6 @@ function checkAuth() {
         notAuthorized();
     }
 }
-
-checkAuth();
 
 function createCardRestaurant() {
 
@@ -132,18 +123,35 @@ function createCardRestaurant() {
 
     cardsRestaurants.insertAdjacentHTML('beforeend', card);
 
-
 }
-
-createCardRestaurant();
-createCardRestaurant();
-createCardRestaurant();
 
 function createCardGood() {
     const card = document.createElement('div');
-    card.className = 'card'
+    card.className = 'card';
 
-    console.log(card);
+    card.insertAdjacentHTML('beforeend', `
+            <img src="img/image (5).jpg" alt="image" class="card-image">
+            <div class="card-text">
+                <div class="card-heading">
+                    <h3 class="card-title card-title-reg">Ролл угорь стандарт</h3>
+                </div>
+                <div class="card-info">
+                    <div class="ingredients">Рис, угорь, соус унаги, кунжут, водоросли нори.</div>
+                </div>
+                <div class="card-buttons">
+                    <button class="button button-primary">
+                        <span class="button-card-text">В корзину</span>
+                        <img 
+                        src="img/shopping-cart-white.svg" 
+                        alt="shopping-cart" 
+                        class="button-card-image">
+                    </button>
+                    <strong class="card-price-bold">250 ₽</strong>
+                </div>
+            </div>
+    `);
+
+    cardsMenu.insertAdjacentElement('beforeend', card);
 }
 
 function openGoods(event) {
@@ -153,22 +161,33 @@ function openGoods(event) {
     const restaurant = target.closest('.card-restaurant');
 
     if(restaurant) {
+        cardsMenu.textContent = '';
         containerPromo.classList.add('hide');
         restaurants.classList.add('hide');
         menu.classList.remove('hide');
+
+        createCardGood();
+        createCardGood();
+        createCardGood();
     }
-
-    createCardGood();
-
 }
 
+buttonAuth.addEventListener('click', clearForm);
 
+cartButton.addEventListener("click", toggleModal);
 
-
+close.addEventListener("click", toggleModal);
 
 cardsRestaurants.addEventListener('click', openGoods);
+
 logo.addEventListener('click', function() {
     containerPromo.classList.remove('hide');
     restaurants.classList.remove('hide');
     menu.classList.add('hide');
 });
+
+checkAuth();
+
+createCardRestaurant();
+createCardRestaurant();
+createCardRestaurant();
