@@ -68,13 +68,18 @@ function notAuthorized() {
         event.preventDefault();
         if (loginInput.value.trim()) {
           login = loginInput.value; 
-          localStorage.setItem('gloDelivery', login)
-          toggleModalAuth();
-          buttonAuth.removeEventListener('click', toggleModalAuth);
           closeAuth.removeEventListener('click', toggleModalAuth);
-          logInForm.removeEventListener('submit', logIn)
-          logInForm.reset();
-          checkAuth();
+
+          
+        if(login && password) {
+            localStorage.setItem('gloDelivery', login);
+            
+            toggleModalAuth();
+            buttonAuth.removeEventListener('click', toggleModalAuth);
+            logInForm.removeEventListener('submit', logIn);
+            logInForm.reset();
+            checkAuth();
+        }
         } else {
             loginInput.style.borderColor = '#ff0000';
             loginInput.value = '';
@@ -155,20 +160,24 @@ function createCardGood() {
 }
 
 function openGoods(event) {
+    if(login){
+        const target = event.target;
 
-    const target = event.target;
+        const restaurant = target.closest('.card-restaurant');
 
-    const restaurant = target.closest('.card-restaurant');
+        if(restaurant) {
+            cardsMenu.textContent = '';
+            containerPromo.classList.add('hide');
+            restaurants.classList.add('hide');
+            menu.classList.remove('hide');
 
-    if(restaurant) {
-        cardsMenu.textContent = '';
-        containerPromo.classList.add('hide');
-        restaurants.classList.add('hide');
-        menu.classList.remove('hide');
-
-        createCardGood();
-        createCardGood();
-        createCardGood();
+            createCardGood();
+            createCardGood();
+            createCardGood();
+        }
+    }
+    else {
+        toggleModalAuth();
     }
 }
 
