@@ -200,3 +200,17 @@ checkAuth();
 createCardRestaurant();
 createCardRestaurant();
 createCardRestaurant();
+
+
+//  Slider
+
+new Swiper('.swiper', {
+    sliderPerView: 1,
+    loop: true,
+    autoplay: true,
+    effect: 'cube',
+    grabCursor: true,
+    cubeEffect:{
+        shadow: false,
+    },
+})
