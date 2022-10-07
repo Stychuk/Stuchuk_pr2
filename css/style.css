@@ -110,6 +110,7 @@ body{
 .main{
     background: linear-gradient(180deg, rgba(245, 245, 245, 0) 1.04%, #F5F5F5 100%);
 }
+
 .section-heading{
     display: flex;
     align-items: center;
@@ -259,7 +260,9 @@ body{
 .social-link:not(:last-child){
     margin-right: 21px;
 }
-
+.swiper {
+    position:static;
+}
 .modal{
     position: fixed;
     left: 0;
