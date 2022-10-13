@@ -23,7 +23,6 @@ const cardsMenu = document.querySelector('.cards-menu');
 
 let login = localStorage.getItem('gloDelivery');
 
-
 const getData = async function(url) {
     
     const response = await fetch(url);
@@ -124,7 +123,7 @@ function checkAuth() {
 function createCardRestaurant({ image, kitchen, name, price, stars, products, time_of_delivery: timeOfDelivery }) {
 
     const card = `
-        <a class="card card-restaurant" data-products="${products}">
+        <a class="card card-restaurant" data-name="${name}" data-stars="${stars}" data-price="${price}" data-kitchen="${kitchen}" data-products="${products}">
             <img src="${image}" alt="image" class="card-image">
             <div class="card-text">
                 <div class="card-heading">
@@ -141,6 +140,29 @@ function createCardRestaurant({ image, kitchen, name, price, stars, products, ti
     `;
 
     cardsRestaurants.insertAdjacentHTML('beforeend', card);
+}
+
+function createReustarantInfo({ stars, name, price, kitchen }) {
+
+    const restaurantInfo = document.createElement('div');
+    restaurantInfo.className = 'menu-heading';
+
+    restaurantInfo.insertAdjacentHTML('afterbegin', ` 
+            <h3 class="section-title">${name}</h3>
+            <div class="card-info">
+                <div class="rating">
+                    <img src="img/rating.svg" alt="star" class="rating-star">
+                    ${stars}
+                </div>
+                <div class="price">
+                    От ${price} ₽
+                </div>
+                <div class="category">
+                    ${kitchen}
+                </div>
+            </div>
+    `);
+    menu.insertAdjacentElement('afterbegin', restaurantInfo);
 }
 
 function createCardGood({ description, image, name, price }) {
@@ -173,29 +195,6 @@ function createCardGood({ description, image, name, price }) {
     cardsMenu.insertAdjacentElement('beforeend', card);
 }
 
-function createReustarantInfo({ stars, name, price, kitchen }) {
-
-    const restaurantInfo = document.createElement('div');
-    restaurantInfo.className = 'menu-heading';
-
-    restaurantInfo.insertAdjacentHTML('beforeend', `
-            <h3 class="section-title">${name}</h3>
-            <div class="card-info">
-                <div class="rating">
-                    <img src="img/icon/rating.svg" alt="star" class="rating-star">
-                    ${stars}
-                </div>
-                <div class="price">
-                    От ${price} ₽
-                </div>
-                <div class="category">
-                    ${kitchen}
-                </div>
-            </div>
-    `);
-    menu.insertAdjacentElement('afterbegin', restaurantInfo);
-}
-
 function openGoods(event) {
     if(login){
         const target = event.target;
@@ -205,17 +204,15 @@ function openGoods(event) {
         cardsMenu.textContent = '';
         
         if(restaurant) {
+            containerPromo.classList.add('hidden');
+            restaurants.classList.add('hidden');
+            menu.classList.remove('hidden');
             
-            containerPromo.classList.add('hide');
-            restaurants.classList.add('hide');
-            menu.classList.remove('hide');
-
             createReustarantInfo(restaurant.dataset);
             
             getData(`./db/${restaurant.dataset.products}`).then(function(data){
                 data.forEach(createCardGood);
             });
-            
         }
     }
     else {
@@ -224,11 +221,12 @@ function openGoods(event) {
 }
 
 function init() {
+
     getData('./db/partners.json').then(function(data){
         data.forEach(createCardRestaurant);
         //data.forEach(createReustarantInfo);
     });
-        
+
     buttonAuth.addEventListener('click', clearForm);
     
     cartButton.addEventListener("click", toggleModal);
@@ -238,11 +236,10 @@ function init() {
     cardsRestaurants.addEventListener('click', openGoods);
     
     logo.addEventListener('click', function() {
-        containerPromo.classList.remove('hide');
-        restaurants.classList.remove('hide');
-        menu.classList.add('hide');
+        containerPromo.classList.remove('hidden');
+        restaurants.classList.remove('hidden');
+        menu.classList.add('hidden');
     });
-    
     checkAuth();
     
     //  Slider
@@ -254,7 +251,7 @@ function init() {
         effect: 'cube',
         grabCursor: true,
         cubeEffect:{
-            shadow: false,
+        shadow: false,
         },
     });
 }
