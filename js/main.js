@@ -292,7 +292,7 @@ function init() {
                             containerPromo.classList.add('hidden');
                             restaurants.classList.add('hidden');
                             menu.classList.remove('hidden');
-                            pageName.style.display = 'flex';
+                            //pageName.style.display = 'flex';
                             
                             if(resultSearch.length == 0) {
                                 if(pageName.textContent) return;
@@ -302,6 +302,7 @@ function init() {
                                 pageName.textContent = 'Результат поиска';
                                 resultSearch.forEach(createCardGood);
                             }
+                            pageName.classList.remove('hidden');
                         })
                     })
                 })
