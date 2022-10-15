@@ -2,9 +2,9 @@
 
 //new WOW().init();
 
-const cartButton = document.querySelector("#cart-button");
-const modal = document.querySelector(".modal");
-const close = document.querySelector(".close");
+const cartButton = document.querySelector('#cart-button');
+const modal = document.querySelector('.modal');
+const close = document.querySelector('.close');
 const buttonAuth = document.querySelector('.button-auth');
 const closeAuth = document.querySelector('.close-auth');
 const modalAuth = document.querySelector('.modal-auth');
@@ -20,6 +20,9 @@ const restaurants = document.querySelector('.restaurants');
 const menu = document.querySelector('.menu');
 const logo = document.querySelector('.logo');
 const cardsMenu = document.querySelector('.cards-menu');
+
+const inputSearch = document.querySelector('.input-search');
+const pageName = document.querySelector('.page-name');
 
 let login = localStorage.getItem('gloDelivery');
 
@@ -120,6 +123,7 @@ function checkAuth() {
     }
 }
 
+
 function createCardRestaurant({ image, kitchen, name, price, stars, products, time_of_delivery: timeOfDelivery }) {
 
     const card = `
@@ -206,8 +210,8 @@ function openGoods(event) {
         if(restaurant) {
             containerPromo.classList.add('hidden');
             restaurants.classList.add('hidden');
-            menu.classList.remove('hidden');
-            
+            pageName.classList.add('hidden');
+
             createReustarantInfo(restaurant.dataset);
             
             getData(`./db/${restaurant.dataset.products}`).then(function(data){
@@ -220,11 +224,18 @@ function openGoods(event) {
     }
 }
 
+function closeGoods() {
+    inputSearch.value = '';
+    containerPromo.classList.remove('hidden');
+    restaurants.classList.remove('hidden');
+    menu.classList.add('hidden');
+    pageName.classList.add('hidden');
+}
+
 function init() {
 
     getData('./db/partners.json').then(function(data){
         data.forEach(createCardRestaurant);
-        //data.forEach(createReustarantInfo);
     });
 
     buttonAuth.addEventListener('click', clearForm);
@@ -240,7 +251,60 @@ function init() {
         restaurants.classList.remove('hidden');
         menu.classList.add('hidden');
     });
+
     checkAuth();
+
+    inputSearch.addEventListener('keypress', function(event) {
+        if (event.charCode === 13) {
+            pageName.textContent = '';
+            const value = event.target.value.trim();
+
+            if(!value) {
+                event.target.style.backgroundColor = "red";
+                event.target.value = '';
+                setTimeout(function() {
+                    event.target.style.backgroundColor = "red";
+                },1500)
+                return;
+            }
+
+            getData('./db/partners.json') 
+                .then(function (data) {
+                    return data.map(function(partner) {
+                        return partner.products;  
+                    }); 
+                })
+                .then(function(linksProduct) {
+                    cardsMenu.textContent = '';
+
+                    linksProduct.forEach(function(link) {
+                        getData(`./db/${link}`)
+                            .then(function(data) {
+
+                        const resultSearch = data.filter(function(item) {
+                            const name = item.name.toLowerCase();
+                            return name.includes(value.toLowerCase());
+                        });
+
+                            containerPromo.classList.add('hidden');
+                            restaurants.classList.add('hidden');
+                            menu.classList.remove('hidden');
+                            pageName.style.display = 'block';
+                            
+                            if(resultSearch.length == 0) {
+                                if(pageName.textContent) return;
+                                pageName.textContent  = 'Ничего не найдено';
+                            }
+                            else {
+                                pageName.textContent = 'Результат поиска';
+                                resultSearch.forEach(createCardGood);
+                            }
+                        })
+                    })
+                })
+            }
+        });
+    
     
     //  Slider
     
