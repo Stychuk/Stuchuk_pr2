@@ -20,7 +20,6 @@ const restaurants = document.querySelector('.restaurants');
 const menu = document.querySelector('.menu');
 const logo = document.querySelector('.logo');
 const cardsMenu = document.querySelector('.cards-menu');
-
 const inputSearch = document.querySelector('.input-search');
 const pageName = document.querySelector('.page-name');
 
@@ -58,6 +57,7 @@ function clearForm() {
 }
 
 function authorized() {
+
     function logOut() {
         login = null;
         localStorage.removeItem('gloDelivery')
@@ -74,6 +74,7 @@ function authorized() {
     buttonAuth.style.display = 'none';
     userName.style.display = 'inline';
     buttonOut.style.display = 'block';
+
     userName1.textContent = "Welcome, " + login + "!";
     buttonOut.addEventListener('click', logOut);
 }
@@ -211,6 +212,7 @@ function openGoods(event) {
             containerPromo.classList.add('hidden');
             restaurants.classList.add('hidden');
             pageName.classList.add('hidden');
+            menu.classList.remove('hidden');
 
             createReustarantInfo(restaurant.dataset);
             
@@ -260,6 +262,7 @@ function init() {
             const value = event.target.value.trim();
 
             if(!value) {
+                
                 event.target.style.backgroundColor = "red";
                 event.target.value = '';
                 setTimeout(function() {
@@ -289,7 +292,7 @@ function init() {
                             containerPromo.classList.add('hidden');
                             restaurants.classList.add('hidden');
                             menu.classList.remove('hidden');
-                            pageName.style.display = 'block';
+                            pageName.style.display = 'flex';
                             
                             if(resultSearch.length == 0) {
                                 if(pageName.textContent) return;

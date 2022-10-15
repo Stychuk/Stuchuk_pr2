@@ -390,7 +390,7 @@ body{
 .user-name{
     padding-right: 10px;
 }
-.user_name{
+.userN{
     text-align: center;
     font-size: 40px;
     margin-bottom: 20px;
@@ -402,6 +402,9 @@ body{
     background-color: transparent;
 }
 .hidden{
+    display: none;
+}
+.button-shop{
     display: none;
 }
 
