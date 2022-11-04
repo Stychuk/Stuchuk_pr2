@@ -1,5 +1,20 @@
 'use strict';
 
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.13.0/firebase-app.js";
+import { getDatabase, ref, child, get, set, push } from "https://www.gstatic.com/firebasejs/9.13.0/firebase-database.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBvGnuLO_ddSpDK22mOtd3kLxSah2hf7_8",
+    authDomain: "userbase-6872e.firebaseapp.com",
+    databaseURL: "https://userbase-6872e-default-rtdb.firebaseio.com",
+    projectId: "userbase-6872e",
+    storageBucket: "userbase-6872e.appspot.com",
+    messagingSenderId: "427480539846",
+    appId: "1:427480539846:web:8f5dbcb0c563762505edc7"
+  };
+
+  const app = initializeApp(firebaseConfig);
+
 //new WOW().init();
 
 const cartButton = document.querySelector('#cart-button');
@@ -61,7 +76,21 @@ function clearForm() {
     logInForm.reset();
 }
 
+const finalUser = [];
+
 function authorized() {
+    
+const dbRef = ref(getDatabase());
+
+get(child(dbRef, 'user')).then((snapshot) => {
+    if (snapshot.exists()) {
+        authorized(snapshot.val());
+    } 
+}).catch((error) => {
+    console.error(error);
+});
+
+    const obj = {};
 
     function logOut() {
         login = null;
@@ -76,6 +105,7 @@ function authorized() {
     }
 
     userName.textContent = login; 
+    obj['Пользователь'] = login;
 
     buttonAuth.style.display = 'none';
     userName.style.display = 'inline';
@@ -83,6 +113,8 @@ function authorized() {
     cartButton.style.display = 'flex';
     userName1.textContent = "Welcome, " + login + "!";
     buttonOut.addEventListener('click', logOut);
+
+    finalUser.push(obj);
 }
 
 function notAuthorized() {
@@ -125,6 +157,14 @@ function notAuthorized() {
 function checkAuth() {
     if (login) {
         authorized();
+
+        const contactsRef = ref(getDatabase(), 'contacts');
+
+        push(ref(getDatabase(), 'contacts'), {
+            ...finalUser
+        });
+
+        console.log(finalUser);
     } else {
         notAuthorized();
     }
